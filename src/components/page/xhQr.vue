@@ -11,7 +11,7 @@
             <el-table-column prop="address" label="单位地址" width="150"> </el-table-column>
             <el-table-column prop="type" label="市场部标识" width="150"> </el-table-column>
             <el-table-column prop="num" label="已推广订单数量" width="150"> </el-table-column>
-            <el-table-column prop="status" label="状态" width="150"> </el-table-column>
+            <el-table-column prop="status" label="状态(0未激活 1已激活 2已失效)" width="200"> </el-table-column>
             <el-table-column fixed="right" label="操作" width="300">
                 <template slot-scope="scope">
                     <el-button type="text" size="normal" @click="editInfo(scope.$index)">编辑</el-button>
@@ -84,7 +84,11 @@ export default {
         };
     },
     // 计算属性，会监听依赖属性值随之变化
-    computed: {},
+    computed: {
+        status(val) {
+            console.log(val);
+        }
+    },
     // 监控data中的数据变化
     watch: {},
 
