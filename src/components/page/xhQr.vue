@@ -5,14 +5,14 @@
         <!-- 推广码信息列表 -->
         <el-table :data="QrList" border style="width: 100%">
             <el-table-column prop="name" label="姓名" width="120"> </el-table-column>
-            <el-table-column prop="phone" label="手机号码" width="300"> </el-table-column>
-            <el-table-column prop="alipay_no" label="支付宝账号" width="300"> </el-table-column>
+            <el-table-column prop="phone" label="手机号码" width="250"> </el-table-column>
+            <el-table-column prop="alipay_no" label="支付宝账号" width="250"> </el-table-column>
             <el-table-column prop="company" label="单位" width="150"> </el-table-column>
             <el-table-column prop="address" label="单位地址" width="150"> </el-table-column>
             <el-table-column prop="type" label="市场部标识" width="150"> </el-table-column>
             <el-table-column prop="num" label="已推广订单数量" width="150"> </el-table-column>
-            <el-table-column prop="status" label="状态(0未激活 1已激活 2已失效)" width="200"> </el-table-column>
-            <el-table-column fixed="right" label="操作" width="300">
+            <el-table-column prop="status" label="状态(0未激活 1已激活 2已失效)" width="250"> </el-table-column>
+            <el-table-column fixed="right" label="操作" width="150">
                 <template slot-scope="scope">
                     <el-button type="text" size="normal" @click="editInfo(scope.$index)">编辑</el-button>
                     <el-button type="text" size="normal" @click="lock(scope.$index)">锁定</el-button>
