@@ -2,20 +2,28 @@
     <div>
         <!-- 根据订单号查询订单 -->
         <div>
-            <!-- <div style="margin-top: 15px;margin-bottom:15px;width:30%">
-                <el-input placeholder="请输入订单号" v-model="id" class="input-with-select">
+            <div style="margin-top: 15px;margin-bottom:15px;width:30%">
+                <el-input placeholder="请输入推广码" v-model="id" class="input-with-select">
                     <el-button slot="append" icon="el-icon-search" @click="orderSearch"></el-button>
                 </el-input>
-            </div> -->
+            </div>
         </div>
         <!-- 状态切换 -->
-
+        <!-- <h2>根据订单状态查询订单</h2> -->
         <div style="margin-bottom:10px">
             <el-button @click="changeOrder(0)" type="primary">已完成</el-button>
             <el-button @click="changeOrder(1)" type="primary">待审核</el-button>
             <el-button @click="changeOrder(2)" type="primary">已审核</el-button>
             <el-button @click="changeOrder(3)" type="primary">已提现</el-button>
         </div>
+
+        <!-- <h2>根据推广者状态查询订单</h2>
+        <div style="margin-bottom:10px">
+            <el-button @click="changeOrder(0)" type="primary">已完成</el-button>
+            <el-button @click="changeOrder(1)" type="primary">待审核</el-button>
+            <el-button @click="changeOrder(2)" type="primary">已审核</el-button>
+            <el-button @click="changeOrder(3)" type="primary">已提现</el-button>
+        </div> -->
 
         <!-- 推广码信息列表 -->
         <el-table :data="orderList" border style="width: 100%">
@@ -31,6 +39,12 @@
             <el-table-column prop="pay_time" label="佣金支付时间" width="150"> </el-table-column>
             <el-table-column prop="text" label="备注" width="330"> </el-table-column>
             <el-table-column prop="status" label="订单状态" width="150"> </el-table-column>
+            <el-table-column fixed="right" label="操作" width="150">
+                <template slot-scope="scope">
+                    <el-button type="text" size="normal" @click="pass(scope.$index)">通过审核</el-button>
+                    <el-button type="text" size="normal" @click="withdraw(scope.$index)">提现</el-button>
+                </template>
+            </el-table-column>
         </el-table>
     </div>
 </template>
@@ -94,20 +108,108 @@ export default {
                 try {
                     const res = await this.$axios({
                         method: 'post',
-                        url: this.baseurl + '/index',
+                        url: this.baseurl + '/tid_list',
                         data: {
-                            id: this.id
+                            tid: this.id
                         }
                     });
                     console.log(res);
                     if (res) {
-                        this.orderList = [];
-                        this.orderList.push(res.data);
+                        this.orderList = res.data;
+                        this.$message({
+                            type: 'success',
+                            message: '查询成功'
+                        });
                     }
                 } catch (error) {
                     console.log(error);
                 }
             }
+        },
+        // 通过审核
+        async pass(index) {
+            // 获取到要查询的单条数据id
+            const current_id = this.orderList[index].id;
+            const status = this.orderList[index].status;
+            console.log(current_id);
+            // 当订单状态为1才能去审核
+            if (status == 1) {
+                this.$alert('确认通过审核？', '提示', {
+                    confirmButtonText: '确定',
+                    callback: async action => {
+                        console.log(action);
+                        // this.$axios({});
+                        if (action == 'confirm') {
+                            console.log('点击确定');
+                            const res = await this.$axios({
+                                method: 'post',
+                                url: this.baseurl + '/chcek_ok',
+                                data: {
+                                    id: current_id
+                                }
+                            });
+                            console.log(res);
+                            if (res.data.code == 200) {
+                                this.$message({
+                                    type: 'success',
+                                    message: `已通过审核`
+                                });
+                                //重新查询
+                                this.getOrderList();
+                            }
+                            return;
+                        }
+                    }
+                });
+                return;
+            }
+            this.$message({
+                type: 'info',
+                message: `该订单的状态不能通过审核`
+            });
+        },
+
+        // 体现
+        async withdraw(index) {
+            // 获取到要查询的单条数据id
+            const current_id = this.orderList[index].id;
+            const status = this.orderList[index].status;
+            console.log(current_id);
+            // 当订单状态为1才能去审核
+            if (status == 2) {
+                this.$alert('确认提现？', '提示', {
+                    confirmButtonText: '确定',
+                    callback: async action => {
+                        console.log(action);
+                        // this.$axios({});
+                        if (action == 'confirm') {
+                            console.log('点击确定');
+                            const res = await this.$axios({
+                                method: 'post',
+                                url: this.baseurl + '/torder_pay',
+                                data: {
+                                    id: current_id
+                                }
+                            });
+                            console.log(res);
+                            if (res.data.code == 200) {
+                                this.$message({
+                                    type: 'success',
+                                    message: `已提现`
+                                });
+                                //重新查询
+                                this.getOrderList();
+                            }
+                            return;
+                        }
+                    }
+                });
+                return;
+            }
+            this.$message({
+                type: 'info',
+                message: `该订单的状态不能提现`
+            });
         }
     },
     // 生命周期 - 创建完成（可以访问当前this实例）

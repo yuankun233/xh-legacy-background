@@ -6,14 +6,15 @@
                 <div>手机号:{{ item.archive_phone }}</div>
                 <div>服务项目:{{ item.body }}</div>
                 <div>服务时间:{{ item.start_text }}-----{{ item.time_slot_status }}</div>
-                <div>服务地址：{{item.region}}{{item.address}}</div>
+                <div>服务地址：{{ item.region }}{{ item.address }}</div>
                 <div v-if="item.minute == 1">类别:次数</div>
                 <div v-if="item.minute == 2">类别:服务包</div>
                 <div>
                     服务次数:{{ item.num }}
                     <!-- 服务价格:{{ item.total_fee }} -->
                 </div>
-                <div>已服务次数：{{item.order_num}}</div>
+                <div>已服务次数：{{ item.order_num }}</div>
+                <div>下单时间：{{ item.create_time }}</div>
             </div>
             <el-button @click="PaiFn(item.id, item.archive_text)" type="danger">派单</el-button>
         </div>
@@ -54,13 +55,13 @@ export default {
                 url: 'https://www.xiaohulaile.com/xh/p/wadmin/admin/get_list',
                 data: {}
             })
-            .then(function (res) {
+            .then(function(res) {
                 console.log(res.data.data, '订单列表');
                 _this.orderList = res.data.data.datalist;
-                console.log( _this.orderList,'time');
+                console.log(_this.orderList, 'time');
                 _this.tr = res.data.data.page.tr;
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 console.log(error);
             });
         //护士
@@ -70,11 +71,11 @@ export default {
                 url: 'https://www.xiaohulaile.com/xh/p/wadmin/admin/attend',
                 data: {}
             })
-            .then(function (res) {
+            .then(function(res) {
                 console.log(res.data.data, '护士列表');
                 _this.nurseList = res.data.data;
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 console.log(error);
             });
     },
@@ -104,7 +105,7 @@ export default {
                         attend_id: arr
                     }
                 })
-                .then(function (res) {
+                .then(function(res) {
                     console.log(res.data.code, '绑定护士');
                     if (res.data.code == 0) {
                         _this.$message.success('绑定成功');
@@ -115,7 +116,7 @@ export default {
                         _this.isShow = false;
                     }
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log(error);
                 });
         },
@@ -130,13 +131,13 @@ export default {
                         page_no: val
                     }
                 })
-                .then(function (res) {
+                .then(function(res) {
                     console.log(res.data.data, '订单列表');
                     _this.orderList = res.data.data.datalist;
                     _this.tr = res.data.data.page.tr;
                 })
-                .catch(function (error) {
-                    console.log(error,'错误');
+                .catch(function(error) {
+                    console.log(error, '错误');
                 });
         }
     }

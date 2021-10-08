@@ -24,6 +24,7 @@
                 </div>
                 <div>订单状态：{{ item.status_text }}</div>
                 <div>已服务次数：{{ item.order_num }}</div>
+                <div>下单时间：{{ item.create_time }}</div>
             </div>
         </div>
         <el-pagination @current-change="handleCurrentChange" layout="prev, pager, next" :total="tr" :page-size="5"> </el-pagination>
