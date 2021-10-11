@@ -15,6 +15,8 @@
                 </div>
                 <div>已服务次数：{{ item.order_num }}</div>
                 <div>下单时间：{{ item.create_time }}</div>
+                <div>备注：{{ item.content }}</div>
+                <div>订单来源：{{ orderOrigin(item.long_status) }}</div>
             </div>
             <el-button @click="PaiFn(item.id, item.archive_text)" type="danger">派单</el-button>
         </div>
@@ -139,6 +141,27 @@ export default {
                 .catch(function(error) {
                     console.log(error, '错误');
                 });
+        },
+        // 订单来源筛选
+        orderOrigin(val) {
+            console.log('订单来源', val);
+            let text;
+            switch (val) {
+                case 0:
+                    text = '微信小程序';
+                    break;
+                case 1:
+                    text = '站长下单';
+                    break;
+                case 2:
+                    text = '支付宝小程序';
+                    break;
+                case 3:
+                    text = '阿里健康';
+                    break;
+                default:
+            }
+            return text
         }
     }
 };

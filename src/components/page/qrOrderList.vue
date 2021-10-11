@@ -38,7 +38,7 @@
             <el-table-column prop="end_time" label="订单完成时间" width="150"> </el-table-column>
             <el-table-column prop="pay_time" label="佣金支付时间" width="150"> </el-table-column>
             <el-table-column prop="text" label="备注" width="330"> </el-table-column>
-            <el-table-column prop="status" label="订单状态" width="150"> </el-table-column>
+            <el-table-column prop="status" label="订单状态(0已完成 1待审核 2已审核 3已提现)" width="200"> </el-table-column>
             <el-table-column fixed="right" label="操作" width="150">
                 <template slot-scope="scope">
                     <el-button type="text" size="normal" @click="pass(scope.$index)">通过审核</el-button>
