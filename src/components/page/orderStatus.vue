@@ -2,7 +2,7 @@
     <div>
         <el-button type="success" plain @click="getStatus(0)" class="btn">待服务</el-button>
         <el-button type="success" plain @click="getStatus(1)" class="btn">服务中</el-button>
-        <el-button type="success" plain @click="getStatus(2)" class="btn">待评价</el-button>
+        <el-button type="success" plain @click="getStatus(2)" class="btn">已完成</el-button>
         <div class="search">
             <div class="bt">请搜索姓名</div>
             <el-input class="inp" placeholder="请输入内容" v-model="text" clearable> </el-input>
@@ -11,7 +11,7 @@
         </div>
         <div v-for="(item, index) in orderList" :key="index" class="container aa">
             <div>
-                <div>客服名字:{{ item.archive_text }}</div>
+                <div>客户名字:{{ item.archive_text }}</div>
                 <div>手机号:{{ item.archive_phone }}</div>
                 <div>服务项目:{{ item.body }}</div>
                 <div>服务时间:{{ item.start_text }}-----{{ item.time_slot_status }}</div>
